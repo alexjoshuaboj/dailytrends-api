@@ -1,0 +1,13 @@
+services:
+  app: 
+    build: .
+    container_name: dailytrends
+    ports: 
+      - "${PORT}:${PORT}"
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URI: ${DB_URI}
+    volumes:
+      - .:/usr/src/app
+    command: npm run start

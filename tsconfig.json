@@ -9,7 +9,11 @@
       "skipLibCheck": true,
       "paths": {
         "@routes/*": ["routes/*"],
-        "@controllers/*": ["controllers/*"]
+        "@controllers/*": ["controllers/*"],
+        "@models/*": ["models/*"],
+        "@interfaces/*": ["interfaces/*"],
+        "@services/*": ["services/*"],
+        "@repostories/*": ["repostories/*"],
       }
     },
     "include": ["src"],
