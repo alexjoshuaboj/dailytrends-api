@@ -13,6 +13,9 @@ export default class FeedRoutes {
 
     private configureRoutes(): void {
         this._router.get('/', this.feedController.getFeeds);
+        this._router.post('/', this.feedController.createFeed);
+        this._router.put('/:feedId', this.feedController.updateFeed);
+        this._router.delete('/:feedId', this.feedController.deleteFeed);
     }
 
     public get router(): Router {
