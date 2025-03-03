@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+      "target": "es2020",
+      "module": "commonjs",
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "rootDir": "src",
+      "baseUrl": "src",
+      "skipLibCheck": true
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"]
+  }

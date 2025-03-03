@@ -1,0 +1,27 @@
+{
+  "name": "dailytrends-api",
+  "version": "1.0.0",
+  "description": "Dailytrends",
+  "main": "src/start.js",
+  "scripts": {
+    "start": "ts-node src/start.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexjoshuaboj/dailytrends-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexjoshuaboj/dailytrends-api/issues"
+  },
+  "homepage": "https://github.com/alexjoshuaboj/dailytrends-api#readme",
+  "dependencies": {
+    "express": "^4.21.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.8"
+  }
+}
