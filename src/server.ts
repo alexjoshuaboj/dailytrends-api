@@ -3,6 +3,8 @@ import routes from '@routes/index';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 
+import { DbConnection } from 'infrastructure/dbConnection';
+
 dotenv.config();
 export class Server {
     private app: express.Application;
@@ -39,6 +41,11 @@ export class Server {
                 error: 'Not found'
             });
         });
+    }
+
+    async initializeDB(): Promise<void> {
+        const db = DbConnection.getInstance();
+        db.connection;
     }
 
     async listen(): Promise<void> {

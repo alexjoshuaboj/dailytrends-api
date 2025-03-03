@@ -7,6 +7,7 @@ export class BackendApp {
         const port = process.env.PORT ?? '3071';
         this.server = new Server(port);
 
+        await this.server.initializeDB();
         return this.server.listen();
     }
 

@@ -11,3 +11,14 @@ services:
     volumes:
       - .:/usr/src/app
     command: npm run start
+
+  mongo: 
+    image: mongo:latest
+    container_name: dailytrends-mongo
+    ports: 
+      - "${DB_PORT}:${DB_PORT}"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
