@@ -12,11 +12,7 @@ export default class FeedRoutes {
     }
 
     private configureRoutes(): void {
-        this._router.get('/', (_, res) => {
-            res.send({
-                message: 'Feed route'
-            });
-        });
+        this._router.get('/', this.feedController.getFeeds);
     }
 
     public get router(): Router {

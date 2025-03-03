@@ -9,12 +9,13 @@
       "baseUrl": "src",
       "skipLibCheck": true,
       "paths": {
-        "@routes/*": ["routes/*"],
         "@controllers/*": ["controllers/*"],
-        "@models/*": ["models/*"],
         "@interfaces/*": ["interfaces/*"],
+        "@routes/*": ["routes/*"],
+        "@models/*": ["models/*"],
         "@services/*": ["services/*"],
-        "@repostories/*": ["repostories/*"],
+        "@repositories/*": ["repositories/*"],
+        "@infrastructure/*": ["infrastructure/*"],
       }
     },
     "include": ["src"],

@@ -3,7 +3,7 @@ import routes from '@routes/index';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 
-import { DbConnection } from 'infrastructure/dbConnection';
+import { DbConnection } from '@infrastructure/dbConnection';
 
 dotenv.config();
 export class Server {
@@ -45,7 +45,7 @@ export class Server {
 
     async initializeDB(): Promise<void> {
         const db = DbConnection.getInstance();
-        db.connection;
+        await db.connect();
     }
 
     async listen(): Promise<void> {
