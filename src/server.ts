@@ -9,12 +9,6 @@ export class Server {
         this.app = express();
     }
 
-    start() {
-        this.app.listen(this.port, () => {
-            console.log(`Server started on port ${this.port}`);
-        });
-    }
-
     async listen(): Promise<void> {
         return new Promise((resolve, _) => {
             this.app.listen(this.port, () => {
