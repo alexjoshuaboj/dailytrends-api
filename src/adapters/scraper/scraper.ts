@@ -19,7 +19,7 @@ export class ScraperService {
             articleSelector: 'article.ue-c-cover-content',
             titleSelector: 'h2.ue-c-cover-content__headline',
             linkSelector: 'a.ue-c-cover-content__link',
-            summarySelector: 'p.ue-c-cover-content__description',
+            summarySelector: 'a.hidden-content',
             sliceCount: 5
         }); 
 

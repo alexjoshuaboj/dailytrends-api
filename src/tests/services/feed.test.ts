@@ -1,5 +1,3 @@
-// tests/services/FeedService.test.ts
-
 import { FeedService } from '@services/feed/feed.service';
 import { IFeedRepository } from '@interfaces/feed/IFeedRepository';
 import { IFeed } from '@interfaces/feed/IFeed';
@@ -30,7 +28,7 @@ describe('FeedService', () => {
     feedService = new FeedService(feedRepository);
   });
 
-  it('getFeeds debe retornar la lista de feeds', async () => {
+  it('getFeeds should return the list of feeds', async () => {
     (feedRepository.find as jest.Mock).mockResolvedValue([mockFeed]);
 
     const feeds = await feedService.getFeeds();
@@ -39,7 +37,7 @@ describe('FeedService', () => {
     expect(feeds).toEqual([mockFeed]);
   });
 
-  it('createFeed debe crear un feed y retornarlo', async () => {
+  it('createFeed should create a feed and return it', async () => {
     (feedRepository.create as jest.Mock).mockResolvedValue(mockFeed);
 
     const feed = await feedService.createFeed(mockFeed);
@@ -48,7 +46,7 @@ describe('FeedService', () => {
     expect(feed).toEqual(mockFeed);
   });
 
-  it('deleteFeed debe llamar al método delete del repositorio', async () => {
+  it('deleteFeed should call the repositories delete method', async () => {
     (feedRepository.delete as jest.Mock).mockResolvedValue(undefined);
 
     await feedService.deleteFeed('1');
@@ -56,7 +54,7 @@ describe('FeedService', () => {
     expect(feedRepository.delete).toHaveBeenCalledWith('1');
   });
 
-  it('updateFeed debe actualizar el feed y retornarlo', async () => {
+  it('updateFeed should update the feed and return it', async () => {
     (feedRepository.update as jest.Mock).mockResolvedValue(mockFeed);
 
     const updatedFeed = await feedService.updateFeed('1', mockFeed);
@@ -65,7 +63,7 @@ describe('FeedService', () => {
     expect(updatedFeed).toEqual(mockFeed);
   });
 
-  it('findFeedById debe retornar el feed buscado', async () => {
+  it('findFeedById should return the searched feed', async () => {
     (feedRepository.findById as jest.Mock).mockResolvedValue(mockFeed);
 
     const feed = await feedService.findFeedById('1');
@@ -74,7 +72,7 @@ describe('FeedService', () => {
     expect(feed).toEqual(mockFeed);
   });
 
-  it('findAndSaveTodayFeeds debe retornar los feeds del día', async () => {
+  it('findAndSaveTodayFeeds should return the days feeds', async () => {
     (feedRepository.findAndSaveTodayFeeds as jest.Mock).mockResolvedValue([mockFeed]);
 
     const feeds = await feedService.findAndSaveTodayFeeds();
@@ -83,7 +81,7 @@ describe('FeedService', () => {
     expect(feeds).toEqual([mockFeed]);
   });
 
-  it('createManyFeeds debe crear múltiples feeds y retornarlos', async () => {
+  it('createManyFeeds should create multiple feeds and return them', async () => {
     const feedsToCreate: IFeed[] = [mockFeed];
     (feedRepository.createMany as jest.Mock).mockResolvedValue(feedsToCreate);
 

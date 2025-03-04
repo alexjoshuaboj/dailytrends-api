@@ -12,7 +12,6 @@ describe('FeedController', () => {
   beforeEach(() => {
     feedController = new FeedController();
 
-    // Simulación básica de los métodos de respuesta
     res = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn(),
@@ -20,13 +19,12 @@ describe('FeedController', () => {
   });
 
   describe('getFeed', () => {
-    it('debe responder con el feed obtenido y status 200', async () => {
+    it('You must respond with the feed obtained and status 200', async () => {
       const mockFeed: Partial<IFeed> = { _id: '1', title: 'Feed de prueba', publishedAt: 123456 };
       req = {
         params: { feedId: '1' },
       };
 
-      // Mock del método findFeedById del servicio
       feedController['feedService'].findFeedById = jest.fn().mockResolvedValue(mockFeed);
 
       await feedController.getFeed(req as Request, res as Response);
@@ -36,7 +34,7 @@ describe('FeedController', () => {
       expect(res.json).toHaveBeenCalledWith(mockFeed);
     });
 
-    it('debe responder con error y status 500 si ocurre una excepción', async () => {
+    it('should respond with error and status 500 if an exception occurs', async () => {
       const errorMessage = 'Error inesperado';
       req = {
         params: { feedId: '1' },
@@ -52,13 +50,12 @@ describe('FeedController', () => {
   });
 
   describe('getFeeds', () => {
-    it('debe responder con la lista de feeds y status 200', async () => {
+    it('should respond with the list of feeds and status 200', async () => {
       const mockFeeds: Partial<IFeed>[] = [
         { _id: '1', title: 'Feed 1', publishedAt: 123456 },
         { _id: '2', title: 'Feed 2', publishedAt: 123457 },
       ];
 
-      // Mock del método findAndSaveTodayFeeds del servicio
       feedController['feedService'].findAndSaveTodayFeeds = jest.fn().mockResolvedValue(mockFeeds);
 
       await feedController.getFeeds({} as Request, res as Response);
@@ -68,7 +65,7 @@ describe('FeedController', () => {
       expect(res.json).toHaveBeenCalledWith(mockFeeds);
     });
 
-    it('debe responder con error y status 500 si ocurre una excepción', async () => {
+    it('should respond with error and status 500 if an exception occurs', async () => {
       const errorMessage = 'Error al obtener feeds';
       feedController['feedService'].findAndSaveTodayFeeds = jest.fn().mockRejectedValue(new Error(errorMessage));
 
@@ -80,19 +77,16 @@ describe('FeedController', () => {
   });
 
   describe('createFeed', () => {
-    it('debe crear un feed, asignar publishedAt y responder con status 201', async () => {
+    it('you should create a feed, assign publishedAt and respond with status 201', async () => {
       const newFeed: Partial<IFeed> = { _id: '1', title: 'Nuevo Feed', publishedAt: 0 };
       req = { body: { title: newFeed.title } };
 
-      // Mock del método create del repositorio
       feedController['feedRepository'].create = jest.fn().mockImplementation(async (feed: IFeed) => {
-        // Simular que se asigna el ID luego de la creación
         return { ...feed, _id: '1' };
       });
 
       await feedController.createFeed(req as Request, res as Response);
 
-      // Se espera que se haya asignado la fecha actual en formato unix
       expect(feedController['feedRepository'].create).toHaveBeenCalled();
       const feedArg = (feedController['feedRepository'].create as jest.Mock).mock.calls[0][0];
       expect(feedArg.title).toBe(newFeed.title);
@@ -102,7 +96,7 @@ describe('FeedController', () => {
       expect(res.json).toHaveBeenCalledWith({ ...feedArg, _id: '1' });
     });
 
-    it('debe responder con error y status 500 si ocurre una excepción al crear', async () => {
+    it('should respond with error and status 500 if an exception occurs while creating', async () => {
       const errorMessage = 'Error al crear feed';
       req = { body: { title: 'Feed de error' } };
 
@@ -116,10 +110,9 @@ describe('FeedController', () => {
   });
 
   describe('deleteFeed', () => {
-    it('debe eliminar el feed y responder con mensaje de éxito', async () => {
+    it('you should delete the feed and reply with success message', async () => {
       req = { params: { feedId: '1' } };
 
-      // Mock del método delete del repositorio
       feedController['feedRepository'].delete = jest.fn().mockResolvedValue(undefined);
 
       await feedController.deleteFeed(req as Request, res as Response);
@@ -129,7 +122,7 @@ describe('FeedController', () => {
       expect(res.json).toHaveBeenCalledWith({ message: 'Feed deleted successfully' });
     });
 
-    it('debe responder con error y status 500 si ocurre una excepción al eliminar', async () => {
+    it('should respond with error and status 500 if an exception occurs while deleting', async () => {
       const errorMessage = 'Error al eliminar feed';
       req = { params: { feedId: '1' } };
 
@@ -143,11 +136,10 @@ describe('FeedController', () => {
   });
 
   describe('updateFeed', () => {
-    it('debe actualizar el feed y responder con el feed actualizado', async () => {
+    it('you should refresh the feed and reply with the updated feed', async () => {
       const updatedFeed: Partial<IFeed> = { _id: '1', title: 'Feed Actualizado', publishedAt: 123456 };
       req = { params: { feedId: '1' }, body: { title: updatedFeed.title } };
 
-      // Mock del método update del repositorio
       feedController['feedRepository'].update = jest.fn().mockResolvedValue(updatedFeed);
 
       await feedController.updateFeed(req as Request, res as Response);
@@ -157,7 +149,7 @@ describe('FeedController', () => {
       expect(res.json).toHaveBeenCalledWith(updatedFeed);
     });
 
-    it('debe responder con error y status 500 si ocurre una excepción al actualizar', async () => {
+    it('should respond with error and status 500 if an exception occurs while updating', async () => {
       const errorMessage = 'Error al actualizar feed';
       req = { params: { feedId: '1' }, body: { title: 'Feed Error' } };
 
