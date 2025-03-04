@@ -113,19 +113,34 @@ describe('FeedController', () => {
     it('you should delete the feed and reply with success message', async () => {
       req = { params: { feedId: '1' } };
 
+      feedController['feedRepository'].findById = jest.fn().mockResolvedValue({ id: '1' });
       feedController['feedRepository'].delete = jest.fn().mockResolvedValue(undefined);
 
       await feedController.deleteFeed(req as Request, res as Response);
 
+      expect(feedController['feedRepository'].findById).toHaveBeenCalledWith('1');
       expect(feedController['feedRepository'].delete).toHaveBeenCalledWith('1');
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({ message: 'Feed deleted successfully' });
+    });
+
+    it('should respond with no content if feed not found', async () => {
+      req = { params: { feedId: '1' } };
+  
+      feedController['feedRepository'].findById = jest.fn().mockResolvedValue(undefined);
+  
+      await feedController.deleteFeed(req as Request, res as Response);
+  
+      expect(feedController['feedRepository'].findById).toHaveBeenCalledWith('1');
+      expect(res.status).toHaveBeenCalledWith(204);
+      expect(res.json).toHaveBeenCalledWith({ error: 'Feed not found' });
     });
 
     it('should respond with error and status 500 if an exception occurs while deleting', async () => {
       const errorMessage = 'Error al eliminar feed';
       req = { params: { feedId: '1' } };
 
+      feedController['feedRepository'].findById = jest.fn().mockResolvedValue({ id: '1' });
       feedController['feedRepository'].delete = jest.fn().mockRejectedValue(new Error(errorMessage));
 
       await feedController.deleteFeed(req as Request, res as Response);
@@ -140,19 +155,34 @@ describe('FeedController', () => {
       const updatedFeed: Partial<IFeed> = { _id: '1', title: 'Feed Actualizado', publishedAt: 123456 };
       req = { params: { feedId: '1' }, body: { title: updatedFeed.title } };
 
+      feedController['feedRepository'].findById = jest.fn().mockResolvedValue({ id: '1' });
       feedController['feedRepository'].update = jest.fn().mockResolvedValue(updatedFeed);
 
       await feedController.updateFeed(req as Request, res as Response);
 
+      expect(feedController['feedRepository'].findById).toHaveBeenCalledWith('1');
       expect(feedController['feedRepository'].update).toHaveBeenCalledWith('1', req.body);
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith(updatedFeed);
+    });
+
+    it('should respond with no content if feed not found', async () => {
+      req = { params: { feedId: '1' } };
+  
+      feedController['feedRepository'].findById = jest.fn().mockResolvedValue(undefined);
+  
+      await feedController.deleteFeed(req as Request, res as Response);
+  
+      expect(feedController['feedRepository'].findById).toHaveBeenCalledWith('1');
+      expect(res.status).toHaveBeenCalledWith(204);
+      expect(res.json).toHaveBeenCalledWith({ error: 'Feed not found' });
     });
 
     it('should respond with error and status 500 if an exception occurs while updating', async () => {
       const errorMessage = 'Error al actualizar feed';
       req = { params: { feedId: '1' }, body: { title: 'Feed Error' } };
 
+      feedController['feedRepository'].findById = jest.fn().mockResolvedValue({ id: '1' });
       feedController['feedRepository'].update = jest.fn().mockRejectedValue(new Error(errorMessage));
 
       await feedController.updateFeed(req as Request, res as Response);

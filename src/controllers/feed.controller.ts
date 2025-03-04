@@ -50,6 +50,12 @@ export class FeedController {
         const { params: { feedId } } = req;
 
         try {
+            const feed = await this.feedRepository.findById(feedId);
+
+            if (!feed) {
+                res.status(StatusCodes.NO_CONTENT).json({ error: "Feed not found" });
+            }
+
             await this.feedRepository.delete(feedId);
 
             res.status(StatusCodes.OK).json({
@@ -64,8 +70,14 @@ export class FeedController {
         const { params: { feedId }, body } = req;
 
         try {
-            const feed: IFeed = body;
-            const updatedFeed = await this.feedRepository.update(feedId, feed);
+            const feed = await this.feedRepository.findById(feedId);
+
+            if (!feed) {
+                res.status(StatusCodes.NO_CONTENT).json({ error: "Feed not found" });
+            }
+
+            const feedToUpdate: IFeed = body;
+            const updatedFeed = await this.feedRepository.update(feedId, feedToUpdate);
 
             res.status(StatusCodes.OK).json(updatedFeed);
         } catch (error) {
