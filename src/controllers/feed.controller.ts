@@ -13,7 +13,7 @@ export class FeedController {
     
     public getFeeds = async (_: Request, res: Response): Promise<void> => {
         try {
-            const feeds: IFeed[] = await this.feedService.getFeeds();
+            const feeds: IFeed[] = await this.feedService.findAndSaveTodayFeeds();
             res.status(StatusCodes.OK).json(feeds);
         } catch (error) {
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
