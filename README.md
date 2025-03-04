@@ -64,20 +64,70 @@ npm test
 
 ```mermaid
 graph TD;
-    A["Cliente/Frontend"] -->|HTTP Requests| B["Rutas (Routes) - feed/index.ts"]
-    B -->|Dirige Peticiones| C["Controladores (Controllers) - feed/*.ts"]
-    C -->|Usa| D["Servicios (Services) - feedService.ts"]
-    D -->|Implementa Lógica| E["Repositorios (Repositories) - feed.repository.ts"]
-    E -->|Accede a| F["Base de Datos"]
+    subgraph "Punto de Entrada"
+    S["start.ts / server.ts / backendApp.ts"]
+    end
 
-    D -->|Usa| G["Scraper (adapters/scraper/*.ts)"]
-    G -->|Configura con| H["IScraperConfig.ts"]
+    subgraph "Rutas"
+    B["routes/feed (o archivo de rutas)"]
+    end
 
-    I["Interfaces (IFeedRepository.ts, etc.)"] -.->|Define Contratos| D
-    I -.->|Define Contratos| E
-    I -.->|Define Contratos| G
+    subgraph "Controladores"
+    C["controllers/feed.controller.ts"]
+    end
 
-    J["Tests (controllers/feed/*.test.ts, feedService.test.ts, etc.)"] -.->|Validan Lógica| C
-    J -.->|Validan Lógica| D
-    J -.->|Validan Lógica| E
+    subgraph "Servicios"
+    D["feed.service.ts"]
+    end
+
+    subgraph "Repositorios"
+    E["repositories/feed.repository.ts"]
+    end
+
+    subgraph "Infraestructura"
+    F["infrastructure/dbConnection.ts (acceso a la BD)"]
+    end
+
+    subgraph "Modelos"
+    X["models/feed.ts"]
+    end
+
+    subgraph "Adaptadores / Scraper"
+    G["adapters/ (abstractScraper.ts, scraper.ts)"]
+    H["scraper/ (lógica adicional)"]
+    end
+
+    subgraph "Interfaces"
+    IFEED["interfaces/IFeed.ts"]
+    IFREP["interfaces/IFeedRepository.ts"]
+    end
+
+    subgraph "Tests"
+    T["tests/*.test.ts (feed.test.ts, scraper.test.ts, etc.)"]
+    end
+
+    %% Flujo principal
+    A["Cliente/Frontend"] -->|HTTP Requests| S
+    S -->|Inicia y delega| B
+    B -->|Dirige Peticiones| C
+    C -->|Usa| D
+    D -->|Implementa Lógica| E
+    E -->|Accede a| F
+    E -->|Usa Modelos| X
+
+    %% Scraper
+    D -->|También Usa| G
+    G -->|Puede usar| H
+
+    %% Interfaces
+    IFEED -.->|Define contrato de datos| X
+    IFREP -.->|Define contrato del repositorio| E
+    G -.->|Puede implementar contratos| IFREP
+
+    %% Tests
+    T -.->|Validan Lógica| C
+    T -.->|Validan Lógica| D
+    T -.->|Validan Lógica| E
+    T -.->|Validan Lógica| G
+
 ```
