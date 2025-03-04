@@ -7,6 +7,7 @@ module.exports = {
         '^@interfaces/(.*)$': '<rootDir>/src/interfaces/$1',
         '^@controllers/(.*)$': '<rootDir>/src/controllers/$1',
         '^@models/(.*)$': '<rootDir>/src/models/$1',
+        '^@adapters/(.*)$': '<rootDir>/src/adapters/$1',
     },
     testMatch: [
         "**/tests/**/*.test.ts"

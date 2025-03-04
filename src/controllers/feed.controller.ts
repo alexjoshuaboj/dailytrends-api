@@ -10,6 +10,17 @@ import dayjs from 'dayjs';
 export class FeedController {
     private feedRepository: FeedRepository = new FeedRepository();
     private feedService: FeedService = new FeedService(this.feedRepository);
+
+    public getFeed = async (req: Request, res: Response): Promise<void> => {
+        const {params: { feedId }} = req;
+
+        try {
+            const feed: IFeed = await this.feedService.findFeedById(feedId);
+            res.status(StatusCodes.OK).json(feed);
+        } catch (error) {
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+        }
+    };
     
     public getFeeds = async (_: Request, res: Response): Promise<void> => {
         try {

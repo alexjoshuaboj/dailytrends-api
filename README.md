@@ -54,22 +54,6 @@ DailyTrends es un API que expone un feed de noticias agregadas de diferentes per
 - **PUT** `/feeds/:id` - Actualizar un feed
 - **DELETE** `/feeds/:id` - Eliminar un feed
 
-## Arquitectura
-El proyecto sigue una estructura de capas para mantener el código desacoplado:
-
-```mermaid
-flowchart TB
-    A[Rutas] --> B[Controladores]
-    B --> C[Servicios]
-    C --> D[Repositorios]
-    D --> E[Base de Datos]
-
-    I(Interfaces) -.-> B
-    I -.-> C
-    I -.-> D
-
-```
-
 ## Pruebas
 Para ejecutar las pruebas:
 ```bash
@@ -86,7 +70,7 @@ graph TD;
     D -->|Implementa Lógica| E["Repositorios (Repositories) - feed.repository.ts"]
     E -->|Accede a| F["Base de Datos"]
 
-    D -->|Usa| G["Servicios de Scraper (services/scraper/*.ts)"]
+    D -->|Usa| G["Scraper (adapters/scraper/*.ts)"]
     G -->|Configura con| H["IScraperConfig.ts"]
 
     I["Interfaces (IFeedRepository.ts, etc.)"] -.->|Define Contratos| D

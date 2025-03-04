@@ -16,6 +16,7 @@
         "@services/*": ["services/*"],
         "@repositories/*": ["repositories/*"],
         "@infrastructure/*": ["infrastructure/*"],
+        "@adapters/*": ["adapters/*"],
       }
     },
     "include": ["src"],
